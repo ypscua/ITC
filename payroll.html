@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Payroll | Ysa Pascua</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 40px 20px;
+  background: #101019;
+  color: #f5f2ff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+main {
+  max-width: 700px;
+  margin: auto;
+}
+
+a { color: #b79aff; }
+
+h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #b5afc5;
+  line-height: 1.6;
+}
+
+.card {
+  background: #1d1b2b;
+  padding: 28px;
+  border: 1px solid #38314a;
+  border-radius: 16px;
+  margin-top: 25px;
+}
+
+label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  background: #292538;
+  border: 1px solid #55476c;
+  border-radius: 9px;
+  color: white;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: 2px solid #b79aff;
+}
+
+button {
+  width: 100%;
+  background: #b79aff;
+  color: #171020;
+  border: none;
+  padding: 15px;
+  margin-top: 25px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover { background: #d0bdff; }
+
+.result {
+  display: none;
+  margin-top: 25px;
+  background: #29233d;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #5b4a7d;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 12px 0;
+}
+
+.row span:last-child {
+  text-align: right;
+}
+
+.net {
+  color: #d3c0ff;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.error {
+  color: #ffaaaa;
+  margin-top: 15px;
+}
+
+footer {
+  text-align: center;
+  color: #aaa2bd;
+  margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<a href="index.html">← Back to Portfolio</a>
+
+<h1>Simple Payroll Calculator</h1>
+
+<p class="subtitle">
+  Calculate an employee's gross salary,
+  total deductions, and net pay.
+</p>
+
+<div class="card">
+
+  <label for="employee">Employee Name</label>
+  <input type="text" id="employee"
+         placeholder="Example: Juan Dela Cruz">
+
+  <label for="rate">Hourly Rate (PHP)</label>
+  <input type="number" id="rate"
+         min="0" step="0.01"
+         placeholder="Example: 250">
+
+  <label for="hours">Hours Worked</label>
+  <input type="number" id="hours"
+         min="0" step="any"
+         placeholder="Example: 80">
+
+  <label for="sss">SSS Deduction (PHP)</label>
+  <input type="number" id="sss"
+         min="0" step="0.01" value="0">
+
+  <label for="philhealth">
+    PhilHealth Deduction (PHP)
+  </label>
+  <input type="number" id="philhealth"
+         min="0" step="0.01" value="0">
+
+  <label for="pagibig">
+    Pag-IBIG Deduction (PHP)
+  </label>
+  <input type="number" id="pagibig"
+         min="0" step="0.01" value="0">
+
+  <label for="tax">
+    Withholding Tax (PHP)
+  </label>
+  <input type="number" id="tax"
+         min="0" step="0.01" value="0">
+
+  <button onclick="calculatePayroll()">
+    Calculate Payroll
+  </button>
+
+  <p id="error" class="error" role="alert"></p>
+
+  <div class="result" id="result">
+
+    <h2>Employee Payslip</h2>
+
+    <div class="row">
+      <span>Employee:</span>
+      <span id="outName"></span>
+    </div>
+
+    <div class="row">
+      <span>Gross Pay:</span>
+      <span id="outGross"></span>
+    </div>
+
+    <div class="row">
+      <span>Total Deductions:</span>
+      <span id="outDeductions"></span>
+    </div>
+
+    <hr style="border-color:#55476c;">
+
+    <p>NET PAY</p>
+    <div class="net" id="outNet"></div>
+
+  </div>
+</div>
+
+<footer>
+  © 2026 Ysabelle Mae Pascua | CS 1130
+  <p>
+    Educational payroll calculator.
+    Enter deductions manually.
+  </p>
+</footer>
+
+</main>
+
+<script>
+function calculatePayroll() {
+
+  const employee =
+    document.getElementById("employee").value.trim();
+
+  const ids = [
+    "rate", "hours", "sss",
+    "philhealth", "pagibig", "tax"
+  ];
+
+  const values = ids.map(id => {
+    const raw = document.getElementById(id).value;
+    return raw.trim() === "" ? NaN : Number(raw);
+  });
+
+  const [rate, hours, sss, philhealth,
+         pagibig, tax] = values;
+
+  const error = document.getElementById("error");
+  const result = document.getElementById("result");
+
+  error.textContent = "";
+  result.style.display = "none";
+
+  if (
+    employee === "" ||
+    values.some(v => !Number.isFinite(v) || v < 0)
+  ) {
+    error.textContent =
+      "Please complete all fields with valid values.";
+    return;
+  }
+
+  const grossPay = rate * hours;
+
+  const deductions =
+    sss + philhealth + pagibig + tax;
+
+  const netPay = grossPay - deductions;
+
+  if (!Number.isFinite(grossPay) ||
+      !Number.isFinite(deductions)) {
+    error.textContent = "Amounts are too large.";
+    return;
+  }
+
+  if (deductions > grossPay) {
+    error.textContent =
+      "Deductions cannot exceed gross pay.";
+    return;
+  }
+
+  const peso = amount =>
+    new Intl.NumberFormat("en-PH", {
+      style: "currency",
+      currency: "PHP"
+    }).format(amount);
+
+  document.getElementById("outName")
+    .textContent = employee;
+
+  document.getElementById("outGross")
+    .textContent = peso(grossPay);
+
+  document.getElementById("outDeductions")
+    .textContent = peso(deductions);
+
+  document.getElementById("outNet")
+    .textContent = peso(netPay);
+
+  result.style.display = "block";
+}
+</script>
+
+</body>
+</html>
