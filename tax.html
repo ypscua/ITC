@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Philippine Income Tax Calculator | Ysa</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 40px 20px;
+  background: #101019;
+  color: #f5f2ff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+main {
+  max-width: 650px;
+  margin: auto;
+}
+
+a { color: #b79aff; }
+
+h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #b5afc5;
+  line-height: 1.6;
+}
+
+.card {
+  background: #1d1b2b;
+  padding: 30px;
+  border-radius: 18px;
+  border: 1px solid #38314a;
+  margin-top: 25px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #55476c;
+  border-radius: 10px;
+  background: #292538;
+  color: white;
+  font-size: 17px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: #b79aff;
+  color: #171020;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover { background: #d0bdff; }
+
+.result {
+  display: none;
+  margin-top: 25px;
+  padding: 22px;
+  background: #29233d;
+  border-radius: 12px;
+  border: 1px solid #5b4a7d;
+}
+
+.result h2 {
+  color: #cbb5ff;
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.result p { color: #d2c9e0; }
+
+.note {
+  color: #aaa2bd;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<main>
+  <a href="index.html">← Back to Portfolio</a>
+
+  <h1>Philippine Income Tax Calculator</h1>
+
+  <p class="subtitle">
+    Calculate your estimated annual income tax
+    using the Philippine BIR graduated tax
+    rates effective January 2023 onward.
+  </p>
+
+  <div class="card">
+    <label for="income">
+      Annual Taxable Income (PHP)
+    </label>
+
+    <input
+      type="number"
+      id="income"
+      min="0"
+      step="0.01"
+      placeholder="Example: 500000"
+    >
+
+    <button onclick="calculateTax()">
+      Calculate Income Tax
+    </button>
+
+    <div class="result" id="result">
+      <p>Estimated Annual Income Tax</p>
+      <h2 id="taxAmount">₱0.00</h2>
+      <p id="taxBracket"></p>
+      <p id="netIncome"></p>
+      <p id="monthlyTax"></p>
+    </div>
+
+    <p id="error" class="note" role="alert"></p>
+
+    <p class="note">
+      Educational calculator only. Enter annual
+      taxable income after applicable exclusions
+      and deductions. This does not calculate
+      withholding tax, tax credits, or other
+      special tax treatments.
+    </p>
+  </div>
+</main>
+
+<script>
+function calculateTax() {
+  const input = document.getElementById("income");
+  const result = document.getElementById("result");
+  const error = document.getElementById("error");
+
+  const income = Number(input.value);
+  let tax = 0;
+  let bracket = "";
+
+  result.style.display = "none";
+  error.textContent = "";
+
+  if (
+    input.value.trim() === "" ||
+    !Number.isFinite(income) ||
+    income < 0
+  ) {
+    error.textContent =
+      "Please enter a valid annual taxable income.";
+    return;
+  }
+
+  if (income <= 250000) {
+    tax = 0;
+    bracket = "Tax bracket: 0%";
+  }
+  else if (income <= 400000) {
+    tax = (income - 250000) * 0.15;
+    bracket = "Tax bracket: 15% marginal rate";
+  }
+  else if (income <= 800000) {
+    tax = 22500 + (income - 400000) * 0.20;
+    bracket = "Tax bracket: 20% marginal rate";
+  }
+  else if (income <= 2000000) {
+    tax = 102500 + (income - 800000) * 0.25;
+    bracket = "Tax bracket: 25% marginal rate";
+  }
+  else if (income <= 8000000) {
+    tax = 402500 + (income - 2000000) * 0.30;
+    bracket = "Tax bracket: 30% marginal rate";
+  }
+  else {
+    tax = 2202500 + (income - 8000000) * 0.35;
+    bracket = "Tax bracket: 35% marginal rate";
+  }
+
+  const peso = amount =>
+    new Intl.NumberFormat("en-PH", {
+      style: "currency",
+      currency: "PHP"
+    }).format(amount);
+
+  document.getElementById("taxAmount")
+    .textContent = peso(tax);
+
+  document.getElementById("taxBracket")
+    .textContent = bracket;
+
+  document.getElementById("netIncome")
+    .textContent =
+      "Taxable income after calculated tax: " +
+      peso(income - tax);
+
+  document.getElementById("monthlyTax")
+    .textContent =
+      "Average monthly tax equivalent: " +
+      peso(tax / 12);
+
+  result.style.display = "block";
+}
+</script>
+</body>
+</html>
