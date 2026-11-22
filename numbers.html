@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Natural Numbers | Ysa Pascua</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  background: #101019;
+  color: #f5f2ff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+main {
+  max-width: 750px;
+  margin: auto;
+}
+
+a { color: #b79aff; }
+
+h1 { font-size: 38px; }
+
+.subtitle {
+  color: #b5afc5;
+  line-height: 1.6;
+}
+
+.card {
+  background: #1d1b2b;
+  padding: 28px;
+  border-radius: 16px;
+  border: 1px solid #38314a;
+  margin-top: 22px;
+}
+
+.number {
+  color: #b79aff;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  margin: 15px 0 8px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  background: #292538;
+  color: white;
+  border: 1px solid #55476c;
+  border-radius: 9px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  background: #b79aff;
+  color: #171020;
+  border: none;
+  padding: 14px;
+  margin-top: 18px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover { background: #d0bdff; }
+
+.result {
+  color: #d3c0ff;
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 18px;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  color: #aaa2bd;
+  margin-top: 40px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+<main>
+  <a href="index.html">← Back to Portfolio</a>
+
+  <h1>Natural Numbers Calculator</h1>
+  <p class="subtitle">
+    Explore factorials, sums, and averages
+    using JavaScript loops.
+  </p>
+
+  <!-- FACTORIAL -->
+  <div class="card">
+    <div class="number">01 / WHILE LOOP</div>
+    <h2>Factorial Calculator</h2>
+    <p class="subtitle">
+      Calculates n! by multiplying all
+      positive integers from 1 to n.
+    </p>
+
+    <label for="factorialInput">
+      Enter a non-negative integer
+    </label>
+    <input type="number" id="factorialInput"
+           min="0" max="170" step="1"
+           placeholder="Example: 5">
+
+    <button onclick="factorial()">
+      Calculate Factorial
+    </button>
+    <p class="result" id="factorialResult"
+       aria-live="polite"></p>
+  </div>
+
+  <!-- SUM -->
+  <div class="card">
+    <div class="number">02 / DO-WHILE LOOP</div>
+    <h2>Sum of Natural Numbers</h2>
+    <p class="subtitle">
+      Calculates 1 + 2 + ... + n.
+    </p>
+
+    <label for="sumInput">
+      Enter a positive integer
+    </label>
+    <input type="number" id="sumInput"
+           min="1" step="1"
+           placeholder="Example: 5">
+
+    <button onclick="calculateSum()">
+      Calculate Sum
+    </button>
+    <p class="result" id="sumResult"
+       aria-live="polite"></p>
+  </div>
+
+  <!-- AVERAGE -->
+  <div class="card">
+    <div class="number">03 / FOR LOOP</div>
+    <h2>Average of Natural Numbers</h2>
+    <p class="subtitle">
+      Calculates the average of integers
+      from 1 to n.
+    </p>
+
+    <label for="averageInput">
+      Enter a positive integer
+    </label>
+    <input type="number" id="averageInput"
+           min="1" step="1"
+           placeholder="Example: 5">
+
+    <button onclick="calculateAverage()">
+      Calculate Average
+    </button>
+    <p class="result" id="averageResult"
+       aria-live="polite"></p>
+  </div>
+
+  <footer>
+    © 2026 Ysabelle Mae Pascua | CS 1130
+  </footer>
+</main>
+
+<script>
+function getInteger(id, minimum, maximum = 10000) {
+  const raw = document.getElementById(id).value;
+  const n = Number(raw);
+
+  if (
+    raw.trim() === "" ||
+    !Number.isSafeInteger(n) ||
+    n < minimum ||
+    n > maximum
+  ) {
+    return null;
+  }
+  return n;
+}
+
+// FACTORIAL USING WHILE LOOP
+function factorial() {
+  const n = getInteger("factorialInput", 0, 170);
+  const output =
+    document.getElementById("factorialResult");
+
+  if (n === null) {
+    output.textContent =
+      "Enter a whole number from 0 to 170.";
+    return;
+  }
+
+  let answer = 1;
+  let i = 1;
+
+  while (i <= n) {
+    answer *= i;
+    i++;
+  }
+
+  output.textContent =
+    n + "! = " + answer.toLocaleString("en-US", {
+      maximumFractionDigits: 0
+    });
+}
+
+// SUM USING DO-WHILE LOOP
+function calculateSum() {
+  const n = getInteger("sumInput", 1);
+  const output =
+    document.getElementById("sumResult");
+
+  if (n === null) {
+    output.textContent =
+      "Enter a whole number from 1 to 10000.";
+    return;
+  }
+
+  let sum = 0;
+  let i = 1;
+
+  do {
+    sum += i;
+    i++;
+  } while (i <= n);
+
+  output.textContent =
+    "Sum of 1 to " + n + " = " + sum;
+}
+
+// AVERAGE USING FOR LOOP
+function calculateAverage() {
+  const n = getInteger("averageInput", 1);
+  const output =
+    document.getElementById("averageResult");
+
+  if (n === null) {
+    output.textContent =
+      "Enter a whole number from 1 to 10000.";
+    return;
+  }
+
+  let sum = 0;
+
+  for (let i = 1; i <= n; i++) {
+    sum += i;
+  }
+
+  const average = sum / n;
+
+  output.textContent =
+    "Average of 1 to " + n + " = " + average;
+}
+</script>
+</body>
+</html>
