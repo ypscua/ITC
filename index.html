@@ -2,80 +2,538 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My ITC Portfolio</title>
-  <style>
-    body {
-      background: #101014;
-      color: white;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 50px 20px;
-    }
-    main {
-      max-width: 800px;
-      margin: auto;
-    }
-    h1 { font-size: 42px; }
-    .subtitle { color: #aaa; }
-    .card {
-      display: block;
-      background: #20202a;
-      padding: 24px;
-      margin-top: 16px;
-      border-radius: 14px;
-      color: white;
-      text-decoration: none;
-      border: 1px solid #393944;
-    }
-    .card:hover {
-      border-color: #a78bfa;
-      background: #292938;
-    }
-    .number { color: #a78bfa; }
-    footer {
-      color: #999;
-      margin-top: 50px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ysa Pascua | Portfolio</title>
+
+<style>
+:root {
+  --bg: #101019;
+  --card: #1d1b2b;
+  --purple: #b79aff;
+  --text: #f5f2ff;
+  --muted: #b5afc5;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.7;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 7%;
+  background: rgba(16,16,25,.95);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #302b40;
+}
+
+.logo {
+  color: var(--purple);
+  font-weight: 800;
+  font-size: 24px;
+}
+
+nav .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+a { color: var(--purple); }
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+nav a:hover { color: var(--purple); }
+
+section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 85px 7%;
+  scroll-margin-top: 75px;
+}
+
+.hero {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tag {
+  color: var(--purple);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: clamp(48px, 8vw, 90px);
+  line-height: 1.1;
+  margin: 15px 0;
+}
+
+h1 span, h2 span { color: var(--purple); }
+
+h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+h3 { margin-top: 0; }
+
+p {
+  color: var(--muted);
+  max-width: 750px;
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 650px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--purple);
+  color: #171020;
+  text-decoration: none;
+  padding: 12px 22px;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--purple);
+  color: var(--purple);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card {
+  background: var(--card);
+  padding: 28px;
+  border-radius: 16px;
+  border: 1px solid #38314a;
+  transition: .25s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--purple);
+  box-shadow: 0 10px 30px #0004;
+}
+
+.card h3 { color: var(--text); }
+
+.card a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.number {
+  color: var(--purple);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.highlight {
+  color: var(--purple);
+  font-weight: bold;
+}
+
+.pill {
+  display: inline-block;
+  padding: 9px 15px;
+  background: #29233d;
+  color: #d9c9ff;
+  border-radius: 30px;
+  margin: 5px;
+  font-size: 14px;
+}
+
+.timeline {
+  border-left: 2px solid var(--purple);
+  padding-left: 25px;
+  margin-top: 25px;
+}
+
+.timeline-item {
+  margin-bottom: 30px;
+}
+
+.timeline-item h3 { margin-bottom: 4px; }
+
+footer {
+  text-align: center;
+  border-top: 1px solid #302b40;
+  padding: 35px;
+  color: var(--muted);
+}
+
+@media(max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+  nav .links {
+    justify-content: center;
+  }
+  section { padding: 65px 6%; }
+}
+</style>
 </head>
+
 <body>
-  <main>
-    <p class="number">CS 1130 | INTRODUCTION TO COMPUTING</p>
-    <h1>My ITC Portfolio.</h1>
-    <p class="subtitle">
-      A collection of my programming assignments.
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="logo">YSA.</div>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section class="hero" id="home">
+  <div class="tag">HELLO, WORLD! WELCOME TO MY PORTFOLIO</div>
+
+  <h1>Hi, I'm <span>Ysa.</span></h1>
+
+  <h2>Where creativity meets code.</h2>
+
+  <p>
+    I'm Ysabelle Mae Pascua, an Information Technology
+    student at Ateneo de Davao University, a musician,
+    songwriter, and creative soul exploring the
+    intersection of technology and art.
+  </p>
+
+  <p>
+    From designing spaces to writing code and
+    producing music, I'm discovering new ways
+    to turn ideas into something meaningful.
+  </p>
+
+  <div class="buttons">
+    <a class="btn" href="#projects">Explore My Projects</a>
+    <a class="btn secondary" href="#about">Get to Know Me</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="tag">01 / GET TO KNOW ME</div>
+  <h2>About <span>Me.</span></h2>
+
+  <div class="card">
+    <h3>A little bit about my journey</h3>
+
+    <p>
+      Hi! I'm Ysabelle Mae Pascua, but you can call
+      me Ysa. I'm currently pursuing a Bachelor of
+      Science in Information Technology at
+      Ateneo de Davao University.
     </p>
 
-    <h2>My Projects</h2>
+    <p>
+      My college journey didn't exactly follow a
+      straight path. I originally pursued Architecture
+      before deciding to shift to Information Technology.
+      Although I would have been in my second year,
+      changing programs meant beginning a new chapter
+      in a completely different field.
+    </p>
 
-    <a class="card" href="converter.html">
-      <span class="number">01 /</span>
+    <p>
+      It was a big transition, but I've always been
+      interested in computers, technology, and learning
+      how to write code. I'm excited to explore how
+      programming works and how technology can turn
+      creative ideas into real applications.
+    </p>
+
+    <p>
+      Outside academics, music has always been one
+      of the biggest parts of who I am. I love singing,
+      songwriting, playing instruments, and producing
+      my own songs using software such as Ableton Live
+      and Logic Pro.
+    </p>
+
+    <p>
+      I hope to release my own music soon and share
+      the stories I've been creating through my songs.
+      For me, both music and programming are forms of
+      creation. One allows me to express emotions,
+      while the other challenges me to think logically
+      and build something from scratch.
+    </p>
+
+    <p>
+      Through this journey, I hope to continue growing
+      as both a student and an artist, learning new
+      skills, embracing unfamiliar opportunities,
+      and finding ways to bring my passions together.
+    </p>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="tag">02 / MY WORK</div>
+  <h2>Programming <span>Projects.</span></h2>
+
+  <p>
+    A collection of my CS 1130 Introduction to
+    Computing programming assignments.
+    Each project is an opportunity to practice
+    logic, problem-solving, and web development.
+  </p>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="number">PROJECT 01</div>
       <h3>Unit Converter</h3>
-      <p>Temperature and measurement conversions.</p>
-    </a>
+      <p>
+        A calculator for converting temperatures
+        and measurements between different units.
+      </p>
+      <a href="converter.html">View Project →</a>
+    </div>
 
-    <a class="card" href="tax.html">
-      <span class="number">02 /</span>
+    <div class="card">
+      <div class="number">PROJECT 02</div>
       <h3>Income Tax Calculator</h3>
-      <p>Calculate income tax based on income.</p>
-    </a>
+      <p>
+        A program designed to calculate income
+        tax based on a given taxable income.
+      </p>
+      <a href="tax.html">View Project →</a>
+    </div>
 
-    <a class="card" href="numbers.html">
-      <span class="number">03 /</span>
+    <div class="card">
+      <div class="number">PROJECT 03</div>
       <h3>Natural Numbers</h3>
-      <p>Factorial, sum, and average calculations.</p>
-    </a>
+      <p>
+        Exploring factorials, sums, and averages
+        through different JavaScript loops.
+      </p>
+      <a href="numbers.html">View Project →</a>
+    </div>
 
-    <a class="card" href="payroll.html">
-      <span class="number">04 /</span>
+    <div class="card">
+      <div class="number">PROJECT 04</div>
       <h3>Simple Payroll</h3>
-      <p>Employee payroll computation.</p>
-    </a>
+      <p>
+        A basic payroll calculator that computes
+        employee earnings and deductions.
+      </p>
+      <a href="payroll.html">View Project →</a>
+    </div>
 
-    <footer>© 2026 | My ITC Portfolio</footer>
-  </main>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="tag">03 / MY ACADEMIC JOURNEY</div>
+  <h2>My <span>Education.</span></h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="number">CURRENT</div>
+      <h3>BS Information Technology</h3>
+      <p>Ateneo de Davao University</p>
+      <p>
+        Currently developing my knowledge of
+        programming, computing, and technology
+        while exploring the possibilities of IT.
+      </p>
+    </div>
+
+    <div class="timeline-item">
+      <div class="number">PREVIOUS PROGRAM</div>
+      <h3>BS Architecture</h3>
+      <p>Ateneo de Davao University</p>
+      <p>
+        My previous academic path introduced me
+        to design thinking, creativity, visual
+        communication, and problem-solving.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="tag">04 / WHAT I LOVE DOING</div>
+  <h2>Skills & <span>Interests.</span></h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>💻 Technology</h3>
+      <p>
+        Learning programming, web development,
+        and exploring how computers and
+        software work.
+      </p>
+      <span class="pill">HTML</span>
+      <span class="pill">CSS</span>
+      <span class="pill">JavaScript</span>
+    </div>
+
+    <div class="card">
+      <h3>🎵 Music</h3>
+      <p>
+        Music is my creative outlet and
+        one of my greatest passions.
+      </p>
+      <span class="pill">Singing</span>
+      <span class="pill">Songwriting</span>
+      <span class="pill">Instruments</span>
+    </div>
+
+    <div class="card">
+      <h3>🎧 Music Production</h3>
+      <p>
+        Experimenting with recording,
+        arranging, and producing original music.
+      </p>
+      <span class="pill">Ableton Live</span>
+      <span class="pill">Logic Pro</span>
+    </div>
+
+    <div class="card">
+      <h3>🎨 Creative Design</h3>
+      <p>
+        Exploring visual design and creative
+        problem-solving through my background
+        in Architecture.
+      </p>
+      <span class="pill">Design Thinking</span>
+      <span class="pill">Creativity</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="tag">05 / MY EXPERIENCES</div>
+  <h2>Experience & <span>Growth.</span></h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>Architecture to IT</h3>
+      <p>
+        Transitioning between two different
+        disciplines has challenged me to adapt,
+        learn new concepts, and approach
+        problems from different perspectives.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Independent Music Creation</h3>
+      <p>
+        I explore songwriting, musical
+        arrangements, and digital production
+        as part of my personal creative journey.
+        I'm working toward releasing my
+        original music.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Programming Journey</h3>
+      <p>
+        Through my Introduction to Computing
+        coursework, I'm gaining hands-on
+        experience creating interactive
+        webpages and learning programming logic.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="tag">06 / LET'S CONNECT</div>
+  <h2>Get in <span>Touch.</span></h2>
+
+  <div class="card">
+    <h3>Let's create something meaningful.</h3>
+
+    <p>
+      Whether it's technology, music, design,
+      or a creative idea, I'm always excited
+      to learn and explore something new.
+    </p>
+
+    <p>
+      You can check out my programming projects
+      and follow my development journey
+      through GitHub.
+    </p>
+
+    <div class="buttons">
+      <a class="btn"
+         href="https://github.com/ypscua"
+         target="_blank"
+         rel="noopener noreferrer">
+         Visit My GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p style="margin:auto;">
+    © 2026 Ysabelle Mae Pascua
+  </p>
+  <p style="margin:auto;">
+    Made with creativity, curiosity, and code. 💜
+  </p>
+</footer>
+
 </body>
 </html>
-
